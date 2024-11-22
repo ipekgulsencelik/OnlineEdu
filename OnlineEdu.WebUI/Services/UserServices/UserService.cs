@@ -47,9 +47,30 @@ namespace OnlineEdu.WebUI.Services.UserServices
             throw new NotImplementedException();
         }
 
-        public Task<string> LoginAsync(UserLoginDTO userLoginDTO)
+        public async Task<string> LoginAsync(UserLoginDTO userLoginDTO)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(userLoginDTO.Email);
+            if (user == null)
+            {
+                return null;
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, userLoginDTO.Password, false, false);
+            if (!result.Succeeded)
+            {
+                return null;
+            }
+            else
+            {
+                var IsAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+                if (IsAdmin) { return "Admin"; }
+                var IsTeacher = await _userManager.IsInRoleAsync(user, "Teacher");
+                if (IsTeacher) { return "Teacher"; }
+                var IsStudent = await _userManager.IsInRoleAsync(user, "Student");
+                if (IsStudent) { return "Student"; }
+            }
+
+            return null;
         }
 
         public Task<bool> LogoutAsync()
