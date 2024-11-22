@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OnlineEdu.DataAccess.Context;
 using OnlineEdu.Entity.Entities;
 using OnlineEdu.WebUI.DTOs.UserDTOs;
@@ -45,6 +46,11 @@ namespace OnlineEdu.WebUI.Services.UserServices
         public Task<List<AppUser>> GetAllUsersAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<AppUser> GetUserByIdAsync(int id)
+        {
+            return await _userManager.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<string> LoginAsync(UserLoginDTO userLoginDTO)
