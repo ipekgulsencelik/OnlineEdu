@@ -1,0 +1,79 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using OnlineEdu.Business.Abstract;
+using OnlineEdu.DTO.DTOs.CourseCategoryDTOs;
+using OnlineEdu.Entity.Entities;
+
+namespace OnlineEdu.API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CourseCategoriesController(ICourseCategoryService _courseCategoryService, IMapper _mapper) : ControllerBase
+    {
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var values = _courseCategoryService.TGetList();
+            var courseCategories = _mapper.Map<List<ResultCourseCategoryDTO>>(values);
+            return Ok(courseCategories);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetByID(int id)
+        {
+            var value = _courseCategoryService.TGetByID(id);
+            return Ok(value);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _courseCategoryService.TDelete(id);
+            return Ok("Kurs Kategori Alanı Silindi");
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateCourseCategoryDTO createCourseCategoryDTO)
+        {
+            var newValue = _mapper.Map<CourseCategory>(createCourseCategoryDTO);
+            _courseCategoryService.TCreate(newValue);
+            return Ok("Yeni Kurs Kategori Alanı Oluşturuldu");
+        }
+
+        [HttpPut]
+        public IActionResult Update(UpdateCourseCategoryDTO updateCourseCategoryDTO)
+        {
+            var value = _mapper.Map<CourseCategory>(updateCourseCategoryDTO);
+            _courseCategoryService.TUpdate(value);
+            return Ok("Kurs Kategori Alanı Güncellendi");
+        }
+
+        [HttpGet("ShowOnHome/{id}")]
+        public IActionResult ShowOnHome(int id)
+        {
+            _courseCategoryService.TShowOnHome(id);
+            return Ok("Ana Sayfada Gösteriliyor");
+        }
+
+        [HttpGet("DontShowOnHome/{id}")]
+        public IActionResult DontShowOnHome(int id)
+        {
+            _courseCategoryService.TDontShowOnHome(id);
+            return Ok("Ana Sayfada Gösterilmiyor");
+        }
+
+        [HttpGet("GetActiveCategories")]
+        public IActionResult GetActiveCategories()
+        {
+            var values = _courseCategoryService.TGetFilteredList(x => x.IsShown == true);
+            return Ok(values);
+        }
+
+        [HttpGet("GetCourseCategoryCount")]
+        public IActionResult GetCourseCategoryCount()
+        {
+            var courseCount = _courseCategoryService.TCount();
+            return Ok(courseCount);
+        }
+    }
+}

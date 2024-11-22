@@ -1,0 +1,35 @@
+﻿@model UpdateCourseDTO
+
+@{
+    ViewData["Title"] = "Kurs Güncelleme Sayfası";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="CourseID" />
+    <input type="hidden" asp-for="ImageUrl" />
+    <label>Görsel</label>
+    <br />
+    <img src="~/images/courses/@Model.ImageUrl" width="90" class="align-content-center"/>
+    <br />
+    <label>Resim Url</label>
+    <input type="text" asp-for="ImageUrl" class="form-control" />
+    <br />
+    <input type="file" name="image" />
+    <br />
+    <br />
+    <label>Kurs Adı</label>
+    <input type="text" asp-for="CourseName" class="form-control" />
+    <br />
+    <label>Fiyat</label>
+    <input type="text" asp-for="Price" class="form-control" />
+    <br />
+    <label>Kategori</label>
+    <select asp-for="CourseCategoryID" class="form-control" asp-items="@ViewBag.courseCategories">
+        <option>Kategori Seçiniz</option>
+    </select>
+    <br />
+    <label>Ana Sayfada Gösterilsin</label> <input type="checkbox" asp-for="IsShown" class="form-check" />
+    <br />
+    <button class="btn btn-outline-primary">Güncelle</button>
+</form>
