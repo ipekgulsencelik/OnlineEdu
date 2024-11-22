@@ -1,8 +1,8 @@
 ﻿namespace OnlineEdu.WebUI.DTOs.RoleDTOs
 {
-    public class ResultRoleDTO
+    public class CreateRoleDTO
     {
-        public int Id { get; set; }
         public string Name { get; set; }
+        public string ConcurrencyStamp { get; set; }
     }
 }
