@@ -1,4 +1,5 @@
-﻿using OnlineEdu.WebUI.DTOs.BlogCategoryDTOs;
+﻿using OnlineEdu.Entity.Entities;
+using OnlineEdu.WebUI.DTOs.BlogCategoryDTOs;
 
 namespace OnlineEdu.WebUI.DTOs.BlogDTOs
 {
@@ -11,5 +12,7 @@ namespace OnlineEdu.WebUI.DTOs.BlogDTOs
         public DateTime BlogDate { get; set; }
         public int BlogCategoryID { get; set; }
         public ResultBlogCategoryDTO? BlogCategory { get; set; }
+        public int WriterId { get; set; }
+        public AppUser Writer { get; set; }
     }
 }

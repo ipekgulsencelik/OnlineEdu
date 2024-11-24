@@ -9,5 +9,7 @@
         public DateTime BlogDate { get; set; }
         public int BlogCategoryID { get; set; }
         public BlogCategory? BlogCategory { get; set; }
+        public int? WriterId { get; set; }
+        public AppUser Writer { get; set; }
     }
 }
