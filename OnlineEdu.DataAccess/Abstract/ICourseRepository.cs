@@ -7,5 +7,6 @@ namespace OnlineEdu.DataAccess.Abstract
         List<Course> GetAllCoursesWithCategories();
         void ShowOnHome(int id);
         void DontShowOnHome(int id);
+        List<Course> GetCoursesByTeacherID(int id);
     }
 }
