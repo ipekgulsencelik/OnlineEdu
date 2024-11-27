@@ -8,9 +8,8 @@ namespace OnlineEdu.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ContactsController(IGenericService<Contact> _contactService, IMapper _mapper) : ControllerBase
+    public class ContactsController(IContactService _contactService, IMapper _mapper) : ControllerBase
     {
-
         [HttpGet]
         public IActionResult Get()
         {
@@ -46,6 +45,28 @@ namespace OnlineEdu.API.Controllers
             var value = _mapper.Map<Contact>(updateContactDTO);
             _contactService.TUpdate(value);
             return Ok("İletişim Alanı Güncellendi");
+        }
+
+        [HttpGet("ShowOnHome/{id}")]
+        public IActionResult ShowOnHome(int id)
+        {
+            _contactService.TShowOnHome(id);
+            return Ok("Ana Sayfada Gösteriliyor");
+        }
+
+        [HttpGet("DontShowOnHome/{id}")]
+        public IActionResult DontShowOnHome(int id)
+        {
+            _contactService.TDontShowOnHome(id);
+            return Ok("Ana Sayfada Gösterilmiyor");
+        }
+
+        [HttpGet("GetContact")]
+        public IActionResult GetContact()
+        {
+            var value = _contactService.TGetContact();
+            var contact = _mapper.Map<ResultContactDTO>(value);
+            return Ok(contact);
         }
     }
 }

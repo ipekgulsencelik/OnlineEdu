@@ -65,7 +65,7 @@ namespace OnlineEdu.API.Controllers
         [HttpGet("GetActiveImages")]
         public IActionResult GetActiveImages()
         {
-            var values = _imageService.TGetFilteredList(x => x.Status == true);
+            var values = _imageService.TGetFilteredList(x => x.IsShown == true);
             return Ok(values);
         }
 

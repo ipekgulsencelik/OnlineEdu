@@ -1,6 +1,6 @@
-﻿namespace OnlineEdu.Entity.Entities
+﻿namespace OnlineEdu.DTO.DTOs.ContactDTOs
 {
-    public class Contact
+    public class ResultContactDTO
     {
         public int ContactID { get; set; }
         public string? MapUrl { get; set; }

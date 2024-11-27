@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineEdu.WebUI.DTOs.ContactDTOs;
 using OnlineEdu.WebUI.Helpers;
 
 namespace OnlineEdu.WebUI.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
-    [Route("[area]/[controller]/[action]/{id?}")]
     public class ContactController : Controller
     {
         private readonly HttpClient _client = HttpClientInstance.CreateClient();
@@ -46,6 +47,18 @@ namespace OnlineEdu.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> UpdateContact(UpdateContactDTO updateContactDTO)
         {
             await _client.PutAsJsonAsync("Contacts", updateContactDTO);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> ShowOnHome(int id)
+        {
+            await _client.GetAsync("Contacts/ShowOnHome/" + id);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DontShowOnHome(int id)
+        {
+            await _client.GetAsync("Contacts/DontShowOnHome/" + id);
             return RedirectToAction("Index");
         }
     }

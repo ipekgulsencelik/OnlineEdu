@@ -5,22 +5,27 @@ using OnlineEdu.Entity.Entities;
 
 namespace OnlineEdu.DataAccess.Concrete
 {
-    internal class ImageRepository : GenericRepository<Image>, IImageRepository
+    public class ContactRepository : GenericRepository<Contact>, IContactRepository
     {
-        public ImageRepository(OnlineEduContext _context) : base(_context)
+        public ContactRepository(OnlineEduContext context) : base(context)
         {
         }
 
         public void DontShowOnHome(int id)
         {
-            var value = _context.Images.Find(id);
+            var value = _context.Contacts.Find(id);
             value.IsShown = false;
             _context.SaveChanges();
         }
 
+        public Contact GetContact()
+        {
+            return _context.Contacts.Where(x => x.IsShown).OrderByDescending(x => x.ContactID).FirstOrDefault();
+        }
+
         public void ShowOnHome(int id)
         {
-            var value = _context.Images.Find(id);
+            var value = _context.Contacts.Find(id);
             value.IsShown = true;
             _context.SaveChanges();
         }

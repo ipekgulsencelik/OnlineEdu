@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineEdu.Entity.Entities;
@@ -9,7 +10,7 @@ using OnlineEdu.WebUI.Helpers;
 namespace OnlineEdu.WebUI.Areas.Teacher.Controllers
 {
     [Area("Teacher")]
-    [Route("[area]/[controller]/[action]/{id?}")]
+    [Authorize(Roles = "Teacher")]
     public class MyCourseController : Controller
     {
         private readonly HttpClient _client = HttpClientInstance.CreateClient();

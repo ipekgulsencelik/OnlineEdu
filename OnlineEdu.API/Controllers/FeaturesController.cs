@@ -37,7 +37,7 @@ namespace OnlineEdu.API.Controllers
         {
             var newValue = _mapper.Map<Feature>(createFeatureDTO);
             _featureService.TCreate(newValue);
-            return Ok("Yeni Kurs Kategori Alanı Oluşturuldu");
+            return Ok("Yeni Ozellik Oluşturuldu");
         }
 
         [HttpPut]
@@ -45,7 +45,7 @@ namespace OnlineEdu.API.Controllers
         {
             var value = _mapper.Map<Feature>(updateFeatureDTO);
             _featureService.TUpdate(value);
-            return Ok("Kurs Kategori Alanı Güncellendi");
+            return Ok("Ozellik Alanı Güncellendi");
         }
 
         [HttpGet("ShowOnHome/{id}")]
@@ -65,7 +65,7 @@ namespace OnlineEdu.API.Controllers
         [HttpGet("GetActiveFeatures")]
         public IActionResult GetActiveFeatures()
         {
-            var values = _featureService.TGetFilteredList(x => x.IsHome == true);
+            var values = _featureService.TGetFilteredList(x => x.IsShown == true);
             return Ok(values);
         }
 

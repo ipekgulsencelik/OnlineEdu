@@ -10,6 +10,7 @@ namespace OnlineEdu.API.Mappings
         {
             CreateMap<CreateContactDTO, Contact>().ReverseMap();
             CreateMap<UpdateContactDTO, Contact>().ReverseMap();
+            CreateMap<ResultContactDTO, Contact>().ReverseMap();
         }
     }
 }

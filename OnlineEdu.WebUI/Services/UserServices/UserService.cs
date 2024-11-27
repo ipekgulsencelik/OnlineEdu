@@ -51,9 +51,9 @@ namespace OnlineEdu.WebUI.Services.UserServices
             return _mapper.Map<List<ResultUserDTO>>(teachers);
         }
 
-        public Task<List<AppUser>> GetAllUsersAsync()
+        public async Task<List<AppUser>> GetAllUsersAsync()
         {
-            throw new NotImplementedException();
+            return await _userManager.Users.ToListAsync();
         }
 
         public async Task<int> GetTeacherCount()
