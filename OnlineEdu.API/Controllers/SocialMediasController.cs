@@ -8,7 +8,7 @@ namespace OnlineEdu.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SocialMediasController(IGenericService<SocialMedia> _socialMediaService, IMapper _mapper) : ControllerBase
+    public class SocialMediasController(ISocialMediaService _socialMediaService, IMapper _mapper) : ControllerBase
     {
         [HttpGet]
         public IActionResult Get()
@@ -45,6 +45,29 @@ namespace OnlineEdu.API.Controllers
             var value = _mapper.Map<SocialMedia>(updateSocialMediaDTO);
             _socialMediaService.TUpdate(value);
             return Ok("Sosyal Medya Alanı Güncellendi");
+        }
+
+
+        [HttpGet("ShowOnHome/{id}")]
+        public IActionResult ShowOnHome(int id)
+        {
+            _socialMediaService.TShowOnHome(id);
+            return Ok("Ana Sayfada Gösteriliyor");
+        }
+
+        [HttpGet("DontShowOnHome/{id}")]
+        public IActionResult DontShowOnHome(int id)
+        {
+            _socialMediaService.TDontShowOnHome(id);
+            return Ok("Ana Sayfada Gösterilmiyor");
+        }
+
+        [HttpGet("GetLast4SocialMedias")]
+        public IActionResult GetLast4SocialMedias()
+        {
+            var values = _socialMediaService.TGetLast4SocialMedias();
+            var accounts = _mapper.Map<List<ResultSocialMediaDTO>>(values);
+            return Ok(accounts);
         }
     }
 }

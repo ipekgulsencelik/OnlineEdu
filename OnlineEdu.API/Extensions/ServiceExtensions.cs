@@ -27,6 +27,9 @@ namespace OnlineEdu.API.Extensions
 
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<IContactService, ContactManager>();
+
+            services.AddScoped<ISocialMediaRepository, SocialMediaRepository>();
+            services.AddScoped<ISocialMediaService, SocialMediaManager>();
         }
     }
 }

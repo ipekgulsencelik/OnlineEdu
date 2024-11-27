@@ -10,6 +10,7 @@ namespace OnlineEdu.API.Mappings
         {
             CreateMap<CreateSocialMediaDTO, SocialMedia>().ReverseMap();
             CreateMap<UpdateSocialMediaDTO, SocialMedia>().ReverseMap();
+            CreateMap<ResultSocialMediaDTO, SocialMedia>().ReverseMap();
         }
     }
 }
