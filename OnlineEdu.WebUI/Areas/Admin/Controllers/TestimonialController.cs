@@ -48,5 +48,17 @@ namespace OnlineEdu.WebUI.Areas.Admin.Controllers
             await _client.PutAsJsonAsync("Testimonials", updateTestimonialDTO);
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> ShowOnHome(int id)
+        {
+            await _client.GetAsync("Testimonials/ShowOnHome/" + id);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DontShowOnHome(int id)
+        {
+            await _client.GetAsync("Testimonials/DontShowOnHome/" + id);
+            return RedirectToAction("Index");
+        }
     }
 }

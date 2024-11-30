@@ -33,6 +33,9 @@ namespace OnlineEdu.API.Extensions
 
             services.AddScoped<ITeacherSocialMediaRepository, TeacherSocialMediaRepository>();
             services.AddScoped<ITeacherSocialMediaService, TeacherSocialMediaManager>();
+
+            services.AddScoped<ITestimonialRepository, TestimonialRepository>();
+            services.AddScoped<ITestimonialService, TestimonialManager>();
         }
     }
 }

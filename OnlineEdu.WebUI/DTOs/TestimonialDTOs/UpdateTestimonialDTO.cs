@@ -8,5 +8,6 @@
         public string? ImageUrl { get; set; }
         public string? Comment { get; set; }
         public int Star { get; set; }
+        public bool IsShown { get; set; }
     }
 }

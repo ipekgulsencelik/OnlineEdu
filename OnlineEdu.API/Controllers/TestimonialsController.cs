@@ -8,7 +8,7 @@ namespace OnlineEdu.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestimonialsController(IGenericService<Testimonial> _testimonialService, IMapper _mapper) : ControllerBase
+    public class TestimonialsController(ITestimonialService _testimonialService, IMapper _mapper) : ControllerBase
     {
         [HttpGet]
         public IActionResult Get()
@@ -45,6 +45,20 @@ namespace OnlineEdu.API.Controllers
             var value = _mapper.Map<Testimonial>(updateTestimonialDTO);
             _testimonialService.TUpdate(value);
             return Ok("Referans Güncellendi");
+        }
+
+        [HttpGet("ShowOnHome/{id}")]
+        public IActionResult ShowOnHome(int id)
+        {
+            _testimonialService.TShowOnHome(id);
+            return Ok("Ana Sayfada Gösteriliyor");
+        }
+
+        [HttpGet("DontShowOnHome/{id}")]
+        public IActionResult DontShowOnHome(int id)
+        {
+            _testimonialService.TDontShowOnHome(id);
+            return Ok("Ana Sayfada Gösterilmiyor");
         }
 
         [HttpGet("GetTestimonialCount")]
