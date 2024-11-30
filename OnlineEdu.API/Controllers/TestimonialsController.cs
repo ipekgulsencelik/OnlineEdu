@@ -61,6 +61,13 @@ namespace OnlineEdu.API.Controllers
             return Ok("Ana Sayfada Gösterilmiyor");
         }
 
+        [HttpGet("GetActiveTestimonials")]
+        public IActionResult GetActiveTestimonials()
+        {
+            var values = _testimonialService.TGetFilteredList(x => x.IsShown == true);
+            return Ok(values);
+        }
+
         [HttpGet("GetTestimonialCount")]
         public IActionResult GetTestimonialCount()
         {

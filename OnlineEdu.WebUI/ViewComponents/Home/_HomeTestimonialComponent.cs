@@ -10,7 +10,7 @@ namespace OnlineEdu.WebUI.ViewComponents.Home
         
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var values = await _client.GetFromJsonAsync<List<ResultTestimonialDTO>>("Testimonials");
+            var values = await _client.GetFromJsonAsync<List<ResultTestimonialDTO>>("Testimonials/GetActiveTestimonials");
             return View(values);
         }
     }
