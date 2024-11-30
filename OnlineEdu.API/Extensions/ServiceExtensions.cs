@@ -13,6 +13,9 @@ namespace OnlineEdu.API.Extensions
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddScoped(typeof(IGenericService<>), typeof(GenericManager<>));
 
+            services.AddScoped<IAboutRepository, AboutRepository>();
+            services.AddScoped<IAboutService, AboutManager>();
+
             services.AddScoped<IBannerRepository, BannerRepository>();
             services.AddScoped<IBannerService, BannerManager>();
 

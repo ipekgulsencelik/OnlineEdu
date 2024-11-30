@@ -8,13 +8,21 @@ namespace OnlineEdu.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AboutsController(IGenericService<About> _aboutService, IMapper _mapper) : ControllerBase
+    public class AboutsController(IMapper _mapper, IAboutService _aboutService) : ControllerBase
     {
         [HttpGet]
         public IActionResult Get()
         {
             var values = _aboutService.TGetList();
             return Ok(values);
+        }
+
+        [HttpGet("GetAbout")]
+        public IActionResult GetAbout()
+        {
+            var values = _aboutService.TGetLastAbout();
+            var about = _mapper.Map<ResultAboutDTO>(values);
+            return Ok(about);
         }
 
         [HttpGet("{id}")]
@@ -45,6 +53,20 @@ namespace OnlineEdu.API.Controllers
             var value = _mapper.Map<About>(updateAboutDTO);
             _aboutService.TUpdate(value);
             return Ok("Hakkımda Alanı Güncellendi");
+        }
+
+        [HttpGet("ShowOnHome/{id}")]
+        public IActionResult ShowOnHome(int id)
+        {
+            _aboutService.TShowOnHome(id);
+            return Ok("Ana Sayfada Gösteriliyor");
+        }
+
+        [HttpGet("DontShowOnHome/{id}")]
+        public IActionResult DontShowOnHome(int id)
+        {
+            _aboutService.TDontShowOnHome(id);
+            return Ok("Ana Sayfada Gösterilmiyor");
         }
     }
 }

@@ -4,7 +4,8 @@ namespace OnlineEdu.Business.Abstract
 {
     public interface IAboutService : IGenericService<About>
     {
-        List<About> TGetAboutWithFeatures();
-        List<About> TGetAboutWithLast2Images();
+        void TShowOnHome(int id);
+        void TDontShowOnHome(int id);
+        About TGetLastAbout();
     }
 }
