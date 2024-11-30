@@ -12,7 +12,9 @@
         <tr>
             <th>#</th>
             <th>Sosyal Medya</th>
+            <th>Gösterilme Durumu</th>
             <th></th>
+            <th>Ana Sayfada</th>
         </tr>
         @foreach (var item in Model)
         {
@@ -24,9 +26,14 @@
                 <td>
                     <a href="@item.Url" target="_blank"> <i class="@item.Icon"></i> @item.SocialMediaName </a>  
                 </td>
+                <td>@(item.IsShown ? "Gösteriliyor" : "Gösterilmiyor") </td>
                 <td>
                     <button onclick="deleteMySocialMedia(@item.TeacherSocialMediaID)" class="btn btn-outline-danger">Sil</button>
                     <a asp-action="UpdateTeacherSocialMedia" asp-controller="MySocialMedia" asp-area="Teacher" asp-route-id="@item.TeacherSocialMediaID" class="btn btn-outline-info">Güncelle</a>
+                </td>
+                <td>
+                    <a asp-action="ShowOnHome" asp-controller="MySocialMedia" asp-area="Teacher" asp-route-id="@item.TeacherSocialMediaID" class="btn btn-outline-success"> Göster</a>
+                    <a asp-action="DontShowOnHome" asp-controller="MySocialMedia" asp-area="Teacher" asp-route-id="@item.TeacherSocialMediaID" class="btn btn-outline-secondary"> Gösterme</a>
                 </td>
             </tr>
         }

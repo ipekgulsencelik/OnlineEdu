@@ -8,7 +8,7 @@ namespace OnlineEdu.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeacherSocialMediasController(IGenericService<TeacherSocialMedia> _teacherSocialMediaService, IMapper _mapper) : ControllerBase
+    public class TeacherSocialMediasController(ITeacherSocialMediaService _teacherSocialMediaService, IMapper _mapper) : ControllerBase
     {
         [HttpGet("byTeacherID/{id}")]
         public IActionResult GetSocialMediaByTeacherID(int id)
@@ -45,6 +45,28 @@ namespace OnlineEdu.API.Controllers
             var value = _mapper.Map<TeacherSocialMedia>(updateTeacherSocialMediaDTO);
             _teacherSocialMediaService.TUpdate(value);
             return Ok("Eğitmen Sosyal Medyası Alanı Güncellendi");
+        }
+
+        [HttpGet("ShowOnHome/{id}")]
+        public IActionResult ShowOnHome(int id)
+        {
+            _teacherSocialMediaService.TShowOnHome(id);
+            return Ok("Ana Sayfada Gösteriliyor");
+        }
+
+        [HttpGet("DontShowOnHome/{id}")]
+        public IActionResult DontShowOnHome(int id)
+        {
+            _teacherSocialMediaService.TDontShowOnHome(id);
+            return Ok("Ana Sayfada Gösterilmiyor");
+        }
+
+        [HttpGet("GetLast3SocialMediasByTeacherID")]
+        public IActionResult GetLast3TeacherSocialMedias(int id)
+        {
+            var values = _teacherSocialMediaService.TGetLast3SocialMediasByTeacherID(id);
+            var accounts = _mapper.Map<List<ResultTeacherSocialMediaDTO>>(values);
+            return Ok(accounts);
         }
     }
 }

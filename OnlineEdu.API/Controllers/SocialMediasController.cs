@@ -47,7 +47,6 @@ namespace OnlineEdu.API.Controllers
             return Ok("Sosyal Medya Alanı Güncellendi");
         }
 
-
         [HttpGet("ShowOnHome/{id}")]
         public IActionResult ShowOnHome(int id)
         {

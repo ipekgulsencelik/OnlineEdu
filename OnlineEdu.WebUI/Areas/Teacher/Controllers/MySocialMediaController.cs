@@ -54,5 +54,17 @@ namespace OnlineEdu.WebUI.Areas.Teacher.Controllers
             await _client.PutAsJsonAsync("teacherSocialMedias", updateTeacherSocialMediaDTO);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> ShowOnHome(int id)
+        {
+            await _client.GetAsync("TeacherSocialMedias/ShowOnHome/" + id);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DontShowOnHome(int id)
+        {
+            await _client.GetAsync("TeacherSocialMedias/DontShowOnHome/" + id);
+            return RedirectToAction("Index");
+        }
     }
 }

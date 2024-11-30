@@ -30,6 +30,9 @@ namespace OnlineEdu.API.Extensions
 
             services.AddScoped<ISocialMediaRepository, SocialMediaRepository>();
             services.AddScoped<ISocialMediaService, SocialMediaManager>();
+
+            services.AddScoped<ITeacherSocialMediaRepository, TeacherSocialMediaRepository>();
+            services.AddScoped<ITeacherSocialMediaService, TeacherSocialMediaManager>();
         }
     }
 }
