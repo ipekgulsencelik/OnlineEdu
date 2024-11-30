@@ -7,5 +7,7 @@ namespace OnlineEdu.Business.Abstract
         List<Blog> TGetBlogsWithCategories();
         List<Blog> TGetLast4BlogsWithCategories();
         List<Blog> TGetBlogsWithCategoriesByWriterID(int id);
+        void TShowOnHome(int id);
+        void TDontShowOnHome(int id);
     }
 }

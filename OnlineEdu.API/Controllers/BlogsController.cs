@@ -64,6 +64,27 @@ namespace OnlineEdu.API.Controllers
             return Ok(mappedValues);
         }
 
+        [HttpGet("ShowOnHome/{id}")]
+        public IActionResult ShowOnHome(int id)
+        {
+            _blogService.TShowOnHome(id);
+            return Ok("Ana Sayfada Gösteriliyor");
+        }
+
+        [HttpGet("DontShowOnHome/{id}")]
+        public IActionResult DontShowOnHome(int id)
+        {
+            _blogService.TDontShowOnHome(id);
+            return Ok("Ana Sayfada Gösterilmiyor");
+        }
+
+        [HttpGet("GetActiveBlogs")]
+        public IActionResult GetActiveBlogs()
+        {
+            var values = _blogService.TGetFilteredList(x => x.IsShown == true);
+            return Ok(values);
+        }
+
         [HttpGet("GetBlogCount")]
         public IActionResult GetBlogCount()
         {

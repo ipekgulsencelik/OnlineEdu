@@ -7,6 +7,7 @@ namespace OnlineEdu.Business.Concrete
     public class BlogManager : GenericManager<Blog>, IBlogService
     {
         private readonly IBlogRepository _blogRepository;
+        
         public BlogManager(IRepository<Blog> _repository, IBlogRepository blogRepository) : base(_repository)
         {
             _blogRepository = blogRepository;
@@ -25,6 +26,16 @@ namespace OnlineEdu.Business.Concrete
         public List<Blog> TGetLast4BlogsWithCategories()
         {
             return _blogRepository.GetLast4BlogsWithCategories();
+        }
+
+        public void TDontShowOnHome(int id)
+        {
+            _blogRepository.DontShowOnHome(id);
+        }
+
+        public void TShowOnHome(int id)
+        {
+            _blogRepository.ShowOnHome(id);
         }
     }
 }

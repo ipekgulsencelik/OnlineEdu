@@ -103,5 +103,17 @@ namespace OnlineEdu.WebUI.Areas.Admin.Controllers
             await _client.PutAsJsonAsync("Blogs", updateBlogDTO);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> ShowOnHome(int id)
+        {
+            await _client.GetAsync("Blogs/ShowOnHome/" + id);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DontShowOnHome(int id)
+        {
+            await _client.GetAsync("Blogs/DontShowOnHome/" + id);
+            return RedirectToAction("Index");
+        }
     }
 }

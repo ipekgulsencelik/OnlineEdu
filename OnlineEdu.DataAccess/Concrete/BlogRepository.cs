@@ -25,7 +25,21 @@ namespace OnlineEdu.DataAccess.Concrete
 
         public List<Blog> GetLast4BlogsWithCategories()
         {
-            return _context.Blogs.Include(x => x.BlogCategory).OrderByDescending(x => x.BlogID).Take(4).ToList();
+            return _context.Blogs.Include(x => x.BlogCategory).Where(x => x.IsShown).OrderByDescending(x => x.BlogID).Take(4).ToList();
+        }
+
+        public void DontShowOnHome(int id)
+        {
+            var value = _context.Blogs.Find(id);
+            value.IsShown = false;
+            _context.SaveChanges();
+        }
+
+        public void ShowOnHome(int id)
+        {
+            var value = _context.Blogs.Find(id);
+            value.IsShown = true;
+            _context.SaveChanges();
         }
     }
 }

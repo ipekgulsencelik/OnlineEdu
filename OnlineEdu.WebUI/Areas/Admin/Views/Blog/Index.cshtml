@@ -15,7 +15,9 @@
             <th>Blog Başlığı</th>
             <th>Tarih</th>
             <th>Kategori</th>
+            <th>Gösterilme Durumu</th>
             <th></th>
+            <th>Ana Sayfada</th>
         </tr>
         @foreach (var item in Model)
         {
@@ -26,9 +28,14 @@
                 <td>@item.Title</td>
                 <td>@item.BlogDate.ToShortDateString()</td>
                 <td>@item.BlogCategory.Name</td>
+                <td>@(item.IsShown ? "Gösteriliyor" : "Gösterilmiyor") </td>
                 <td>
                     <button onclick="deleteBlog(@item.BlogID)" class="btn btn-outline-danger">Sil</button>
                     <a asp-action="UpdateBlog" asp-controller="Blog" asp-area="Admin" asp-route-id="@item.BlogID" class="btn btn-outline-info">Güncelle</a>
+                </td>
+                <td>
+                    <a asp-action="ShowOnHome" asp-controller="Blog" asp-area="Admin" asp-route-id="@item.BlogID" class="btn btn-outline-success"> Göster</a>
+                    <a asp-action="DontShowOnHome" asp-controller="Blog" asp-area="Admin" asp-route-id="@item.BlogID" class="btn btn-outline-secondary"> Gösterme</a>
                 </td>
             </tr>
         }
