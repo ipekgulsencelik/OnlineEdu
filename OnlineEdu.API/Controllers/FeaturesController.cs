@@ -18,6 +18,14 @@ namespace OnlineEdu.API.Controllers
             return Ok(features);
         }
 
+        [HttpGet("GetLast4Features")]
+        public IActionResult GetLast4Features()
+        {
+            var values = _featureService.TGetLast4Features();
+            var features = _mapper.Map<List<ResultFeatureDTO>>(values);
+            return Ok(features);
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetByID(int id)
         {

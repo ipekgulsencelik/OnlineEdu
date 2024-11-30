@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineEdu.DataAccess.Context;
 
@@ -11,9 +12,11 @@ using OnlineEdu.DataAccess.Context;
 namespace OnlineEdu.DataAccess.Migrations
 {
     [DbContext(typeof(OnlineEduContext))]
-    partial class OnlineEduContextModelSnapshot : ModelSnapshot
+    [Migration("20241130200604_mig_update_about")]
+    partial class mig_update_about
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -460,6 +463,9 @@ namespace OnlineEdu.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeatureID"));
 
+                    b.Property<int>("AboutID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -470,6 +476,8 @@ namespace OnlineEdu.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("FeatureID");
+
+                    b.HasIndex("AboutID");
 
                     b.ToTable("Features");
                 });
@@ -706,6 +714,17 @@ namespace OnlineEdu.DataAccess.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("OnlineEdu.Entity.Entities.Feature", b =>
+                {
+                    b.HasOne("OnlineEdu.Entity.Entities.About", "About")
+                        .WithMany()
+                        .HasForeignKey("AboutID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("About");
                 });
 
             modelBuilder.Entity("OnlineEdu.Entity.Entities.TeacherSocialMedia", b =>

@@ -1,5 +1,4 @@
 ﻿using OnlineEdu.DTO.DTOs.FeatureDTOs;
-using OnlineEdu.DTO.DTOs.ImageDTOs;
 
 namespace OnlineEdu.DTO.DTOs.AboutDTOs
 {
@@ -15,7 +14,6 @@ namespace OnlineEdu.DTO.DTOs.AboutDTOs
         public string? Item2 { get; set; }
         public string? Item3 { get; set; }
         public string? Item4 { get; set; }
-        public List<ResultImageDTO>? Images { get; set; }
         public List<ResultFeatureDTO>? Features { get; set; }
     }
 }

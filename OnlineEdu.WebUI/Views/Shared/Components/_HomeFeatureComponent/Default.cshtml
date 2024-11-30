@@ -1,0 +1,8 @@
+﻿@model List<ResultFeatureDTO>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li><span class="@item.Icon"></span> @item.Description</li>
+    }
+</ul>

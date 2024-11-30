@@ -12,15 +12,5 @@ namespace OnlineEdu.DataAccess.Concrete
         {
 
         }
-
-        public List<About> GetAboutWithFeatures()
-        {
-            return _context.Abouts.Include(x => x.Features).ToList();
-        }
-
-        public List<About> GetAboutWithLast2Images()
-        {
-            return _context.Abouts.Include(x => x.Images).OrderByDescending(x => x.Images).Take(2).ToList();
-        }
     }
 }
