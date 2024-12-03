@@ -1,4 +1,8 @@
-﻿namespace OnlineEdu.API.Mappings
+﻿using AutoMapper;
+using OnlineEdu.DTO.DTOs.CourseRegisterDTOs;
+using OnlineEdu.Entity.Entities;
+
+namespace OnlineEdu.API.Mappings
 {
     public class CourseRegisterMapping : Profile
     {

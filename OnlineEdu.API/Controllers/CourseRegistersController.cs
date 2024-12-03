@@ -1,17 +1,19 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using OnlineEdu.Business.Abstract;
+using OnlineEdu.DTO.DTOs.CourseRegisterDTOs;
+using OnlineEdu.Entity.Entities;
 
 namespace OnlineEdu.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CourseRegistersController(IGenericService<CourseRegister> _courseRegisterService, IMapper _mapper) : ControllerBase
+    public class CourseRegistersController(ICourseRegisterService _courseRegisterService, IMapper _mapper) : ControllerBase
     {
         [HttpGet("GetMyCourses/{userId}")]
         public IActionResult GetMyCourses(int userId)
         {
-            var values = _courseRegisterService.TGetFilteredList(x => x.AppUserId == userId);
+            var values = _courseRegisterService.TGetAllWithCourseAndCategory(x => x.AppUserId == userId);
             var mappedValues = _mapper.Map<List<ResultCourseRegisterDTO>>(values);
             return Ok(mappedValues);
         }
