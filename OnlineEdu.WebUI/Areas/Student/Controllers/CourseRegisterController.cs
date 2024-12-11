@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineEdu.Entity.Entities;
+using OnlineEdu.WebUI.DTOs.CourseDTOs;
 using OnlineEdu.WebUI.DTOs.CourseRegisterDTOs;
 using OnlineEdu.WebUI.Helpers;
 
@@ -18,6 +20,44 @@ namespace OnlineEdu.WebUI.Areas.Student.Controllers
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var values = await _client.GetFromJsonAsync<List<ResultCourseRegisterDTO>>("courseRegisters/GetMyCourses/" + user.Id);
             return View(values);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RegisterCourse()
+        {
+            var courseList = await _client.GetFromJsonAsync<List<ResultCourseDTO>>("Courses");
+            List<SelectListItem> courses = (from x in courseList
+                                            select new SelectListItem
+                                            {
+                                                Text = x.CourseName,
+                                                Value = x.CourseID.ToString()
+                                            }).ToList();
+            ViewBag.courses = courses;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterCourse(CreateCourseRegisterDTO model)
+        {
+            var courseList = await _client.GetFromJsonAsync<List<ResultCourseDTO>>("Courses");
+            List<SelectListItem> courses = (from x in courseList
+                                            select new SelectListItem
+                                            {
+                                                Text = x.CourseName,
+                                                Value = x.CourseID.ToString()
+                                            }).ToList();
+            ViewBag.courses = courses;
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            model.AppUserId = user.Id;
+            var result = await _client.PostAsJsonAsync("courseRegisters", model);
+            if (result.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
     }
 }
