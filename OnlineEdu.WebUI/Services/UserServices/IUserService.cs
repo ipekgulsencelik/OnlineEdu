@@ -15,5 +15,6 @@ namespace OnlineEdu.WebUI.Services.UserServices
         Task<AppUser> GetUserByIdAsync(int id);
         Task<List<ResultUserDTO>> Get4Teachers();
         Task<int> GetTeacherCount();
+        Task<List<ResultUserDTO>> GetAllTeachers();
     }
 }
