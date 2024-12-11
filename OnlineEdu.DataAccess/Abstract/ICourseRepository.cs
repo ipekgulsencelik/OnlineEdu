@@ -1,4 +1,5 @@
 ﻿using OnlineEdu.Entity.Entities;
+using System.Linq.Expressions;
 
 namespace OnlineEdu.DataAccess.Abstract
 {
@@ -7,6 +8,7 @@ namespace OnlineEdu.DataAccess.Abstract
         List<Course> GetAllCoursesWithCategories();
         void ShowOnHome(int id);
         void DontShowOnHome(int id);
+        List<Course> GetAllCoursesWithCategories(Expression<Func<Course, bool>> filter = null);
         List<Course> GetCoursesByTeacherID(int id);
     }
 }
