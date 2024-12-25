@@ -23,6 +23,11 @@ namespace OnlineEdu.DataAccess.Concrete
             return _context.Features.Where(x => x.IsShown).OrderByDescending(x => x.FeatureID).Take(4).ToList();
         }
 
+        public List<Feature> GetAllFeatures()
+        {
+            return _context.Features.Where(x => x.IsShown).OrderByDescending(x => x.FeatureID).ToList();
+        }
+
         public void ShowOnHome(int id)
         {
             var value = _context.Features.Find(id);

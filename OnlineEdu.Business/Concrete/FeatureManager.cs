@@ -18,6 +18,11 @@ namespace OnlineEdu.Business.Concrete
             _featureRepository.DontShowOnHome(id);
         }
 
+        public List<Feature> TGetAllFeatures()
+        {
+            return _featureRepository.GetAllFeatures();
+        }
+
         public List<Feature> TGetLast4Features()
         {
             return _featureRepository.GetLast4Features();

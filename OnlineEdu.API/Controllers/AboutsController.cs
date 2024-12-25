@@ -68,5 +68,12 @@ namespace OnlineEdu.API.Controllers
             _aboutService.TDontShowOnHome(id);
             return Ok("Ana Sayfada Gösterilmiyor");
         }
+
+        [HttpGet("GetActiveAbouts")]
+        public IActionResult GetActiveAbouts()
+        {
+            var values = _aboutService.TGetFilteredList(x => x.IsShown == true);
+            return Ok(values);
+        }
     }
 }
