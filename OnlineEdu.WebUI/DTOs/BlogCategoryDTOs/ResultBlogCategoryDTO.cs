@@ -6,6 +6,7 @@ namespace OnlineEdu.WebUI.DTOs.BlogCategoryDTOs
     {
         public int BlogCategoryID { get; set; }
         public string? Name { get; set; }
+        public bool IsShown { get; set; }
         public List<ResultBlogDTO>? Blogs { get; set; }
     }
 }

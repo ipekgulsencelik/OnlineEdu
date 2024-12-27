@@ -12,7 +12,9 @@
         <tr>
             <th>#</th>
             <th>Blog Kategori Adı</th>
+            <th>Gösterilme Durumu</th>
             <th></th>
+            <th>Ana Sayfada</th>
         </tr>
         @foreach (var item in Model)
         {
@@ -20,9 +22,14 @@
             <tr>
                 <th>@count</th>
                 <td>@item.Name</td>
+                <td>@(item.IsShown ? "Gösteriliyor" : "Gösterilmiyor") </td>
                 <td>
                     <button onclick="deleteBlogCategory(@item.BlogCategoryID)" class="btn btn-outline-danger">Sil</button>
                     <a asp-action="UpdateBlogCategory" asp-controller="BlogCategory" asp-area="Admin" asp-route-id="@item.BlogCategoryID" class="btn btn-outline-info">Güncelle</a>
+                </td>
+                <td>
+                    <a asp-action="ShowOnHome" asp-controller="BlogCategory" asp-area="Admin" asp-route-id="@item.BlogCategoryID" class="btn btn-outline-success"> Göster</a>
+                    <a asp-action="DontShowOnHome" asp-controller="BlogCategory" asp-area="Admin" asp-route-id="@item.BlogCategoryID" class="btn btn-outline-secondary"> Gösterme</a>
                 </td>
             </tr>
         }

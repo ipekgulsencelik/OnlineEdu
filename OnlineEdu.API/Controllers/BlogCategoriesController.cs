@@ -8,13 +8,13 @@ namespace OnlineEdu.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogCategoriesController(IGenericService<BlogCategory> _blogCategoryService, IMapper _mapper) : ControllerBase
+    public class BlogCategoriesController(IBlogCategoryService _blogCategoryService, IMapper _mapper) : ControllerBase
     {
 
         [HttpGet]
         public IActionResult Get()
         {
-            var values = _blogCategoryService.TGetList();
+            var values = _blogCategoryService.TGetCategoriesWithBlogs();
             return Ok(values);
         }
 
@@ -46,6 +46,28 @@ namespace OnlineEdu.API.Controllers
             var value = _mapper.Map<BlogCategory>(updateBlogCategoryDTO);
             _blogCategoryService.TUpdate(value);
             return Ok("Blog Kategori Alanı Güncellendi");
+        }
+
+
+        [HttpGet("GetActiveCategories")]
+        public IActionResult GetActiveCategories()
+        {
+            var values = _blogCategoryService.TGetFilteredList(x => x.IsShown == true);
+            return Ok(values);
+        }
+
+        [HttpGet("ShowOnHome/{id}")]
+        public IActionResult ShowOnHome(int id)
+        {
+            _blogCategoryService.TShowOnHome(id);
+            return Ok("Ana Sayfada Gösteriliyor");
+        }
+
+        [HttpGet("DontShowOnHome/{id}")]
+        public IActionResult DontShowOnHome(int id)
+        {
+            _blogCategoryService.TDontShowOnHome(id);
+            return Ok("Ana Sayfada Gösterilmiyor");
         }
     }
 }
