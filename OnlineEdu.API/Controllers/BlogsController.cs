@@ -29,7 +29,7 @@ namespace OnlineEdu.API.Controllers
         [HttpGet("{id}")]
         public IActionResult GetByID(int id)
         {
-            var value = _blogService.TGetByID(id);
+            var value = _blogService.TGetBlogWithCategories(id);
             return Ok(value);
         }
 

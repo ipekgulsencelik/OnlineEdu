@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineEdu.WebUI.DTOs.BlogDTOs;
 using OnlineEdu.WebUI.DTOs.SubscriberDTOs;
 using OnlineEdu.WebUI.Helpers;
 
@@ -18,6 +19,12 @@ namespace OnlineEdu.WebUI.Controllers
         {
             await _client.PostAsJsonAsync("Subscribers", model);
             return NoContent();
+        }
+
+        public async Task<IActionResult> BlogDetails(int id)
+        {
+            var blog = await _client.GetFromJsonAsync<ResultBlogDTO>("Blogs/" +  id);
+            return View(blog);
         }
     }
 }

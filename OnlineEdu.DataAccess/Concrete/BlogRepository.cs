@@ -41,5 +41,10 @@ namespace OnlineEdu.DataAccess.Concrete
             value.IsShown = true;
             _context.SaveChanges();
         }
+
+        public Blog GetBlogWithCategories(int id)
+        {
+            return _context.Blogs.Include(x => x.BlogCategory).Include(x => x.Writer).ThenInclude(x => x.TeacherSocialMedias).FirstOrDefault(x => x.BlogID == id);
+        }
     }
 }
