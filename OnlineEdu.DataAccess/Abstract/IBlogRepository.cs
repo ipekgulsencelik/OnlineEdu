@@ -10,5 +10,6 @@ namespace OnlineEdu.DataAccess.Abstract
         Blog GetBlogWithCategories(int id);
         void ShowOnHome(int id);
         void DontShowOnHome(int id);
+        List<Blog> GetBlogsByCategoryID(int id);
     }
 }

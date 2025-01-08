@@ -2,7 +2,8 @@
 {
     public class BlogCategoryWithCountViewModel
     {
-        public string CategoryName { get; set; }
+        public int BlogCategoryID { get; set; }
+        public string? CategoryName { get; set; }
         public int BlogCount { get; set; }
     }
 }

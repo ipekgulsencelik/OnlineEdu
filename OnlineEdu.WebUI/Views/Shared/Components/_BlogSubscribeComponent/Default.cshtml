@@ -1,7 +1,7 @@
 ﻿
 <aside class="single_sidebar_widget newsletter_widget">
     <h4 class="widget_title" style="color: #2d2d2d;">Abone Bülteni</h4>
-    <form asp-action="Subscribe" asp-controller="Blog" onsubmit="return validateForm()">
+    <form method="post" asp-action="Subscribe" asp-controller="Blog" onsubmit="return validateForm()">
         <div class="form-group">
             <input type="email" name="Email" id="email" class="form-control" onfocus="this.placeholder = ''"
                    onblur="this.placeholder = 'Emailinizi Giriniz'" placeholder='Emailinizi Giriniz' required>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineEdu.Entity.Entities;
 using OnlineEdu.WebUI.DTOs.BlogCategoryDTOs;
 using OnlineEdu.WebUI.Helpers;
 using OnlineEdu.WebUI.Models;
@@ -17,7 +18,8 @@ namespace OnlineEdu.WebUI.ViewComponents.Blog
               .Select(category => new BlogCategoryWithCountViewModel
               {
                   CategoryName = category.Name,
-                  BlogCount = category.Blogs?.Count ?? 0
+                  BlogCount = category.Blogs?.Count ?? 0,
+                  BlogCategoryID = category.BlogCategoryID
               }).ToList();
 
             return View(categories);
