@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineEdu.WebUI.DTOs.ContactDTOs;
 using OnlineEdu.WebUI.DTOs.MessageDTOs;
 using OnlineEdu.WebUI.Helpers;
 
@@ -8,8 +9,10 @@ namespace OnlineEdu.WebUI.Controllers
     {
         private readonly HttpClient _client = HttpClientInstance.CreateClient();
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
+            var values = await _client.GetFromJsonAsync<List<ResultContactDTO>>("Contacts");
+            ViewBag.map = values.Select(x => x.MapUrl).FirstOrDefault();
             return View();
         }
 
