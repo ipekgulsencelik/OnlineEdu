@@ -52,7 +52,6 @@ namespace OnlineEdu.WebUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> AssignRole(List<AssignRoleDTO> assignRoleList)
         {
             int userId = (int)TempData["userId"];
@@ -71,6 +70,73 @@ namespace OnlineEdu.WebUI.Areas.Admin.Controllers
                 }
             }
 
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> CreateUser()
+        {
+            var roles = await _roleManager.Roles.ToListAsync();
+            var model = new CreateUserViewModel
+            {
+                Roles = roles.Select(role => new AssignRoleDTO
+                {
+                    RoleId = role.Id,
+                    RoleName = role.Name,
+                    RoleExist = false
+                }).ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(CreateUserViewModel createUserViewModel)
+        {
+            if (createUserViewModel.Password != createUserViewModel.ConfirmPassword)
+            {
+                ModelState.AddModelError("ConfirmPassword", "Şifreler birbirini tutmuyor.");
+                return View(createUserViewModel);
+            }
+
+            var newUser = new AppUser()
+            {
+                FirstName = createUserViewModel.FirstName,
+                LastName = createUserViewModel.LastName,
+                UserName = createUserViewModel.UserName,
+                Email = createUserViewModel.Email
+            };
+
+            var result = await _userManager.CreateAsync(newUser, createUserViewModel.Password);
+
+            if (result.Succeeded)
+            {
+                foreach (var item in createUserViewModel.Roles)
+                {
+                    if (item.RoleExist)
+                    {
+                        await _userManager.AddToRoleAsync(newUser, item.RoleName);
+                    }
+                    else
+                    {
+                        await _userManager.RemoveFromRoleAsync(newUser, item.RoleName);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(createUserViewModel);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            await _userService.DeleteUserAsync(id);
             return RedirectToAction("Index");
         }
     }

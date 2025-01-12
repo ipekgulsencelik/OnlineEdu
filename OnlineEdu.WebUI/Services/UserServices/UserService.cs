@@ -19,6 +19,30 @@ namespace OnlineEdu.WebUI.Services.UserServices
             throw new NotImplementedException();
         }
 
+        public async Task<IdentityResult> CreateTeacherUserAsync(UserRegisterDTO userRegisterDTO)
+        {
+            var user = new AppUser
+            {
+                FirstName = userRegisterDTO.FirstName,
+                LastName = userRegisterDTO.LastName,
+                UserName = userRegisterDTO.UserName,
+                Email = userRegisterDTO.Email,
+            };
+            if (userRegisterDTO.Password != userRegisterDTO.ConfirmPassword)
+            {
+                return new IdentityResult();
+            }
+
+            var result = await _userManager.CreateAsync(user, userRegisterDTO.Password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "Teacher");
+                return result;
+            }
+
+            return result;
+        }
+
         public async Task<IdentityResult> CreateUserAsync(UserRegisterDTO userRegisterDTO)
         {
             var user = new AppUser
@@ -41,6 +65,23 @@ namespace OnlineEdu.WebUI.Services.UserServices
             }
 
             return result;
+        }
+
+        public async Task DeleteUserAsync(int id)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user != null) 
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (!result.Succeeded)
+                {
+                    throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+                }
+            }
+            else
+            {
+                throw new KeyNotFoundException($"User with ID {id} was not found.");
+            }
         }
 
         public async Task<List<ResultUserDTO>> Get4Teachers()

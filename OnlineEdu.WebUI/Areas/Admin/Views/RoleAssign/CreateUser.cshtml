@@ -1,0 +1,62 @@
+﻿@model CreateUserViewModel
+
+@{
+    ViewData["Title"] = "Yeni Kullanıcı Bilgisi Ekleme Sayfa";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/login-form-07/fonts/icomoon/style.css">
+<link rel="stylesheet" href="~/login-form-07/css/owl.carousel.min.css">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="~/login-form-07/css/bootstrap.min.css">
+
+<!-- Style -->
+<link rel="stylesheet" href="~/login-form-07/css/style.css">
+
+<form method="post">
+    <div class="form-group first">
+        <label for="username">Ad</label>
+        <input type="text" asp-for="FirstName" class="form-control">
+    </div>
+    <div class="form-group first">
+        <label for="username">Soyad</label>
+        <input type="text" asp-for="LastName" class="form-control">
+    </div>
+    <div class="form-group first">
+        <label for="username">Email</label>
+        <input type="email" asp-for="Email" class="form-control">
+    </div>
+    <div class="form-group first">
+        <label for="username">Kullanıcı Adı</label>
+        <input type="text" asp-for="UserName" class="form-control">
+    </div>
+    <div class="form-group last mb-4">
+        <label for="password">Şifre</label>
+        <input type="password" asp-for="Password" class="form-control" id="password">
+    </div>
+    <div class="form-group last mb-4">
+        <label for="confirmPassword">Şifreyi Tekrar Girin</label>
+        <input type="password" asp-for="ConfirmPassword" class="form-control" id="confirmPassword">
+    </div>
+    <label>Roller:</label>
+    @for (int i = 0; i < Model.Roles.Count; i++)
+    {
+        <div class="form-check">
+            <input type="hidden" asp-for="Roles[@i].RoleId" />
+            <input type="hidden" asp-for="Roles[@i].RoleName" />
+            <input type="checkbox" asp-for="Roles[@i].RoleExist" class="form-check-input" id="role-@i" />
+            <label class="form-check-label" for="role-@i">@Model.Roles[i].RoleName</label>
+        </div>
+    }
+    <br />
+    <p style="color:red">
+        @Html.ValidationSummary()
+    </p>
+    <button class="btn btn-outline-primary">Kaydet</button>
+</form>
+
+<script src="~/login-form-07/js/jquery-3.3.1.min.js"></script>
+<script src="~/login-form-07/js/popper.min.js"></script>
+<script src="~/login-form-07/js/bootstrap.min.js"></script>
+<script src="~/login-form-07/js/main.js"></script>
