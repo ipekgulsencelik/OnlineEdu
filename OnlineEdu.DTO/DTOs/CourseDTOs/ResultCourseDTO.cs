@@ -1,4 +1,5 @@
 ﻿using OnlineEdu.DTO.DTOs.CourseCategoryDTOs;
+using OnlineEdu.Entity.Entities;
 
 namespace OnlineEdu.DTO.DTOs.CourseDTOs
 {
@@ -11,5 +12,8 @@ namespace OnlineEdu.DTO.DTOs.CourseDTOs
         public ResultCourseCategoryDTO? CourseCategory { get; set; }
         public decimal Price { get; set; }
         public bool IsShown { get; set; }
+
+        public int AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
     }
 }
