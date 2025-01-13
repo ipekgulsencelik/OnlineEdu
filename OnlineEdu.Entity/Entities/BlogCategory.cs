@@ -5,6 +5,6 @@
         public int BlogCategoryID { get; set; }
         public string? Name { get; set; }
         public bool IsShown { get; set; }
-        public List<Blog>? Blogs { get; set; }
+        public virtual List<Blog>? Blogs { get; set; }
     }
 }

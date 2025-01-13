@@ -25,5 +25,6 @@ namespace OnlineEdu.DataAccess.Context
         public DbSet<Testimonial> Testimonials { get; set; }
         public DbSet<CourseRegister> CourseRegisters { get; set; }
         public DbSet<TeacherSocialMedia> TeacherSocialMedias { get; set; }
+        public DbSet<CourseVideo> CourseVideos { get; set; }
     }
 }
