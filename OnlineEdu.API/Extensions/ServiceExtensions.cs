@@ -53,6 +53,8 @@ namespace OnlineEdu.API.Extensions
             services.Configure<JwtTokenOptions>(configuration.GetSection("TokenOptions"));
 
             services.AddScoped<IJwtService, JwtService>();
+
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }
