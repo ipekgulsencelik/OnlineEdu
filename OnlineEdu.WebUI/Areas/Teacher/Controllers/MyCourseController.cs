@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineEdu.Entity.Entities;
 using OnlineEdu.WebUI.DTOs.CourseCategoryDTOs;
 using OnlineEdu.WebUI.DTOs.CourseDTOs;
+using OnlineEdu.WebUI.DTOs.CourseVideoDTOs;
 using OnlineEdu.WebUI.Helpers;
 
 namespace OnlineEdu.WebUI.Areas.Teacher.Controllers
@@ -83,6 +84,33 @@ namespace OnlineEdu.WebUI.Areas.Teacher.Controllers
             updateCourseDTO.AppUserId = user.Id;
             await _client.PutAsJsonAsync("Courses", updateCourseDTO);
 
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> CourseVideos(int id)
+        {
+            var values = await _client.GetFromJsonAsync<List<ResultCourseVideoDTO>>("CourseVideos/GetCourseVideosByCourseID/" + id);
+
+            TempData["courseId"] = id;
+
+            ViewBag.courseName = values.Select(x => x.Course.CourseName).FirstOrDefault();
+            return View(values);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateVideo()
+        {
+            var courseId = (int)TempData["courseId"];
+            var course = await _client.GetFromJsonAsync<ResultCourseDTO>("Courses/" + courseId);
+            ViewBag.courseName = course.CourseName;
+            ViewBag.courseId = course.CourseID;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateVideo(CreateCourseVideoDTO model)
+        {
+            await _client.PostAsJsonAsync("CourseVideos", model);
             return RedirectToAction("Index");
         }
     }
