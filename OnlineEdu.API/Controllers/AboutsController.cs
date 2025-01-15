@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineEdu.Business.Abstract;
 using OnlineEdu.DTO.DTOs.AboutDTOs;
@@ -6,10 +7,12 @@ using OnlineEdu.Entity.Entities;
 
 namespace OnlineEdu.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AboutsController(IMapper _mapper, IAboutService _aboutService) : ControllerBase
     {
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Get()
         {
@@ -17,6 +20,7 @@ namespace OnlineEdu.API.Controllers
             return Ok(values);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetAbout")]
         public IActionResult GetAbout()
         {

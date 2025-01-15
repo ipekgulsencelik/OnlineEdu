@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineEdu.Business.Abstract;
 using OnlineEdu.DTO.DTOs.TeacherSocialMediaDTOs;
@@ -6,10 +7,12 @@ using OnlineEdu.Entity.Entities;
 
 namespace OnlineEdu.API.Controllers
 {
+    [Authorize(Roles = "Admin, Teacher")]
     [Route("api/[controller]")]
     [ApiController]
     public class TeacherSocialMediasController(ITeacherSocialMediaService _teacherSocialMediaService, IMapper _mapper) : ControllerBase
     {
+        [AllowAnonymous]
         [HttpGet("byTeacherID/{id}")]
         public IActionResult GetSocialMediaByTeacherID(int id)
         {

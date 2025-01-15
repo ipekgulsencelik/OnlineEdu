@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineEdu.Business.Abstract;
 using OnlineEdu.DTO.DTOs.ContactDTOs;
@@ -6,10 +7,12 @@ using OnlineEdu.Entity.Entities;
 
 namespace OnlineEdu.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class ContactsController(IContactService _contactService, IMapper _mapper) : ControllerBase
     {
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Get()
         {
@@ -61,6 +64,7 @@ namespace OnlineEdu.API.Controllers
             return Ok("Ana Sayfada Gösterilmiyor");
         }
 
+        [AllowAnonymous]
         [HttpGet("GetContact")]
         public IActionResult GetContact()
         {
