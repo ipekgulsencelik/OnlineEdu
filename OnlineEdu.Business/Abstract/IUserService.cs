@@ -1,21 +1,20 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using OnlineEdu.DTO.DTOs.UserDTOs;
 using OnlineEdu.Entity.Entities;
-using OnlineEdu.WebUI.DTOs.UserDTOs;
-using OnlineEdu.WebUI.Models;
 
-namespace OnlineEdu.WebUI.Services.UserServices
+namespace OnlineEdu.Business.Abstract
 {
     public interface IUserService
     {
-        Task<IdentityResult> CreateUserAsync(UserRegisterDTO userRegisterDTO);
-        Task<IdentityResult> CreateTeacherUserAsync(UserRegisterDTO userRegisterDTO);
-        Task<string> LoginAsync(UserLoginDTO userLoginDTO);
+        Task<IdentityResult> CreateUserAsync(RegisterDTO userRegisterDTO);
+        Task<IdentityResult> CreateTeacherUserAsync(RegisterDTO userRegisterDTO);
+        Task<string> LoginAsync(LoginDTO userLoginDTO);
         Task LogoutAsync();
         Task<bool> CreateRoleAsync(UserRoleDTO userRoleDTO);
         Task<bool> AssignRoleAsync(List<AssignRoleDTO> assignRoleDTO);
-        Task<List<UserViewModel>> GetAllUsersAsync();
-        Task<List<AssignRoleDTO>> GetUserForRoleAssign(int id);
+        Task<List<AppUser>> GetAllUsersAsync();
         Task<List<ResultUserDTO>> Get4Teachers();
+        Task<AppUser> GetUserByIdAsync(int id);
         Task<int> GetTeacherCount();
         Task<List<ResultUserDTO>> GetAllTeachers();
         Task DeleteUserAsync(int id);
