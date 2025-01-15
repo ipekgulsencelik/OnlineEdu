@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineEdu.Entity.Entities;
 using OnlineEdu.WebUI.DTOs.BlogCategoryDTOs;
-using OnlineEdu.WebUI.Helpers;
 using OnlineEdu.WebUI.Models;
 
 namespace OnlineEdu.WebUI.ViewComponents.Blog
 {
     public class _BlogCategoryListComponent : ViewComponent
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
+        private readonly HttpClient _client;
+
+        public _BlogCategoryListComponent(IHttpClientFactory clientFactory)
+        {
+            _client = clientFactory.CreateClient("EduClient");
+        }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {

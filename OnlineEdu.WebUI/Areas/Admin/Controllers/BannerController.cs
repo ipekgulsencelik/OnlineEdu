@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineEdu.WebUI.DTOs.BannerDTOs;
-using OnlineEdu.WebUI.Helpers;
 
 namespace OnlineEdu.WebUI.Areas.Admin.Controllers
 {
@@ -9,11 +8,12 @@ namespace OnlineEdu.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class BannerController : Controller
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
+        private readonly HttpClient _client;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public BannerController(IWebHostEnvironment webHostEnvironment)
+        public BannerController(IHttpClientFactory clientFactory, IWebHostEnvironment webHostEnvironment)
         {
+            _client = clientFactory.CreateClient("EduClient");
             _webHostEnvironment = webHostEnvironment;
         }
 

@@ -1,19 +1,23 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using OnlineEdu.Entity.Entities;
 using OnlineEdu.WebUI.DTOs.UserDTOs;
-using OnlineEdu.WebUI.Services.UserServices;
 
 namespace OnlineEdu.WebUI.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
     [Area("Admin")]
-    public class TeacherListController(UserManager<AppUser> _userManager, IUserService _userService) : Controller
+    public class TeacherListController : Controller
     {
+        private readonly HttpClient _client;
+
+        public TeacherListController(IHttpClientFactory clientFactory)
+        {
+            _client = clientFactory.CreateClient("EduClient");
+        }
+
         public async Task<IActionResult> Index()
         {
-            var teachers = await _userManager.GetUsersInRoleAsync("Teacher");
+            var teachers = await _client.GetFromJsonAsync<List<ResultUserDTO>>("Users/TeacherList");
             return View(teachers);
         }
 
@@ -25,22 +29,24 @@ namespace OnlineEdu.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTeacher(UserRegisterDTO userRegisterDTO)
         {
-            var result = await _userService.CreateTeacherUserAsync(userRegisterDTO);
-            if (!result.Succeeded || !ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError("", item.Description);
-                }
-                return View();
+                return View(userRegisterDTO);
             }
 
-            return RedirectToAction("Index");
+            var response = await _client.PostAsJsonAsync("Users/CreateTeacher", userRegisterDTO);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(userRegisterDTO);
         }
 
         public async Task<IActionResult> DeleteTeacher(int id)
         {
-            await _userService.DeleteUserAsync(id);
+            await _client.DeleteAsync("Users/" + id);
             return RedirectToAction("Index");
         }
     }

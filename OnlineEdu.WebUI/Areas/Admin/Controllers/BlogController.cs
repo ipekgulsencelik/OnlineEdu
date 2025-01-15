@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineEdu.WebUI.DTOs.BlogCategoryDTOs;
 using OnlineEdu.WebUI.DTOs.BlogDTOs;
-using OnlineEdu.WebUI.Helpers;
+using OnlineEdu.WebUI.Services.TokenServices;
 
 namespace OnlineEdu.WebUI.Areas.Admin.Controllers
 {
@@ -11,12 +11,15 @@ namespace OnlineEdu.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class BlogController : Controller
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
+        private readonly HttpClient _client;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ITokenService _tokenService;
 
-        public BlogController(IWebHostEnvironment webHostEnvironment)
+        public BlogController(IWebHostEnvironment webHostEnvironment, ITokenService tokenService, IHttpClientFactory clientFactory)
         {
             _webHostEnvironment = webHostEnvironment;
+            _tokenService = tokenService;
+            _client = clientFactory.CreateClient("EduClient");
         }
 
         public async Task CategoryDropdown()
@@ -67,6 +70,8 @@ namespace OnlineEdu.WebUI.Areas.Admin.Controllers
                 createBlogDTO.ImageUrl = uniqueImageName;
             }
 
+            var userId = _tokenService.GetUserId;
+            createBlogDTO.WriterId = userId;
             await _client.PostAsJsonAsync("Blogs", createBlogDTO);
             return RedirectToAction(nameof(Index));
         }
