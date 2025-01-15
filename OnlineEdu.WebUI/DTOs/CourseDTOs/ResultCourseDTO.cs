@@ -1,5 +1,5 @@
-﻿using OnlineEdu.Entity.Entities;
-using OnlineEdu.WebUI.DTOs.CourseCategoryDTOs;
+﻿using OnlineEdu.WebUI.DTOs.CourseCategoryDTOs;
+using OnlineEdu.WebUI.DTOs.UserDTOs;
 
 namespace OnlineEdu.WebUI.DTOs.CourseDTOs
 {
@@ -13,6 +13,6 @@ namespace OnlineEdu.WebUI.DTOs.CourseDTOs
         public decimal Price { get; set; }
         public bool IsShown { get; set; }
         public int AppUserId { get; set; }
-        public AppUser AppUser { get; set; }
+        public ResultUserDTO AppUser { get; set; }
     }
 }

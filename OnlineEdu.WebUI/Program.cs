@@ -1,9 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using OnlineEdu.DataAccess.Context;
-using OnlineEdu.Entity.Entities;
-using OnlineEdu.WebUI.Services.RoleServices;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using OnlineEdu.WebUI.Services.TokenServices;
 using OnlineEdu.WebUI.Services.UserServices;
-using OnlineEdu.WebUI.Validators;
+using System.Net.Http.Headers;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,23 +12,34 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
-builder.Services.AddDbContext<OnlineEduContext>(opt =>
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddHttpClient("EduClient", cfg =>
 {
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
+    var tokenService = builder.Services.BuildServiceProvider().GetRequiredService<ITokenService>();
+    var token = tokenService.GetUserToken;
+    cfg.BaseAddress = new Uri("https://localhost:7224/api/");
+    if (token != null)
+    {
+        cfg.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.GetUserToken);
+    }
 });
 
-builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<OnlineEduContext>().AddErrorDescriber<CustomErrorDescriber>();
-
-builder.Services.AddHttpClient();
-
-builder.Services.ConfigureApplicationCookie(cfg =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCookie(JwtBearerDefaults.AuthenticationScheme, opt =>
 {
-    cfg.LoginPath = "/Login/SignIn";
-    cfg.LogoutPath = "/Login/Logout";
-    cfg.AccessDeniedPath = "/ErrorPage/AccessDenied";
+    opt.LoginPath = "/Login/SignIn";
+    opt.LogoutPath = "/Login/Logout";
+    opt.AccessDeniedPath = "/ErrorPage/AccessDenied";
+    opt.Cookie.SameSite = SameSiteMode.Strict;
+    opt.Cookie.HttpOnly = true;
+    opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    opt.Cookie.Name = "OnlineEduJwt";
+    opt.SlidingExpiration = true;
 });
+
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()).AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
 builder.Services.AddControllersWithViews();
 

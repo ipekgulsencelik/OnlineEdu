@@ -1,25 +1,31 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using OnlineEdu.Entity.Entities;
 using OnlineEdu.WebUI.DTOs.CourseDTOs;
 using OnlineEdu.WebUI.DTOs.CourseRegisterDTOs;
 using OnlineEdu.WebUI.DTOs.CourseVideoDTOs;
 using OnlineEdu.WebUI.Helpers;
+using OnlineEdu.WebUI.Services.TokenServices;
 
 namespace OnlineEdu.WebUI.Areas.Student.Controllers
 {
     [Authorize(Roles = "Student")]
     [Area("Student")]
-    public class CourseRegisterController(UserManager<AppUser> _userManager) : Controller
+    public class CourseRegisterController : Controller
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
- 
+        private readonly HttpClient _client;
+        private readonly ITokenService _tokenService;
+
+        public CourseRegisterController(IHttpClientFactory clientFactory, ITokenService tokenService)
+        {
+            _client = clientFactory.CreateClient("EduClient");
+            _tokenService = tokenService;
+        }
+
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var values = await _client.GetFromJsonAsync<List<ResultCourseRegisterDTO>>("courseRegisters/GetMyCourses/" + user.Id);
+            var userId = _tokenService.GetUserId;
+            var values = await _client.GetFromJsonAsync<List<ResultCourseRegisterDTO>>("courseRegisters/GetMyCourses/" + userId);
             return View(values);
         }
 
@@ -50,8 +56,8 @@ namespace OnlineEdu.WebUI.Areas.Student.Controllers
                                             }).ToList();
             ViewBag.courses = courses;
 
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            model.AppUserId = user.Id;
+            var userId = _tokenService.GetUserId;
+            model.AppUserId = userId;
             var result = await _client.PostAsJsonAsync("courseRegisters", model);
             if (result.IsSuccessStatusCode)
             {

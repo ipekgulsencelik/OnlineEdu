@@ -1,5 +1,5 @@
 ﻿using OnlineEdu.WebUI.DTOs.CourseDTOs;
-using OnlineEdu.Entity.Entities;
+using OnlineEdu.WebUI.DTOs.UserDTOs;
 
 namespace OnlineEdu.WebUI.DTOs.CourseRegisterDTOs
 {
@@ -7,7 +7,7 @@ namespace OnlineEdu.WebUI.DTOs.CourseRegisterDTOs
     {
         public int CourseRegisterID { get; set; }
         public int AppUserId { get; set; }
-        public AppUser AppUser { get; set; }
+        public ResultUserDTO AppUser { get; set; }
         public int CourseID { get; set; }
         public ResultCourseDTO Course { get; set; }
     }
