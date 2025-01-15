@@ -1,22 +1,27 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using OnlineEdu.Entity.Entities;
 using OnlineEdu.WebUI.DTOs.TeacherSocialMediaDTOs;
-using OnlineEdu.WebUI.Helpers;
+using OnlineEdu.WebUI.Services.TokenServices;
 
 namespace OnlineEdu.WebUI.Areas.Teacher.Controllers
 {
     [Area("Teacher")]
     [Authorize(Roles = "Teacher")]
-    public class MySocialMediaController(UserManager<AppUser> _userManager) : Controller
+    public class MySocialMediaController : Controller
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
+        private readonly HttpClient _client;
+        private readonly ITokenService _tokenService;
+
+        public MySocialMediaController(IHttpClientFactory clientFactory, ITokenService tokenService)
+        {
+            _client = clientFactory.CreateClient("EduClient");
+            _tokenService = tokenService;
+        }
 
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var values = await _client.GetFromJsonAsync<List<ResultTeacherSocialMediaDTO>>("teacherSocialMedias/byTeacherID/" + user.Id);
+            var userId = _tokenService.GetUserId;
+            var values = await _client.GetFromJsonAsync<List<ResultTeacherSocialMediaDTO>>("teacherSocialMedias/byTeacherID/" + userId);
             return View(values);
         }
 
@@ -35,8 +40,8 @@ namespace OnlineEdu.WebUI.Areas.Teacher.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTeacherSocialMedia(CreateTeacherSocialMediaDTO createTeacherSocialMediaDTO)
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            createTeacherSocialMediaDTO.TeacherId = user.Id;
+            var userId = _tokenService.GetUserId;
+            createTeacherSocialMediaDTO.TeacherId = userId;
             await _client.PostAsJsonAsync("teacherSocialMedias", createTeacherSocialMediaDTO);
             return RedirectToAction("Index");
         }

@@ -1,4 +1,4 @@
-﻿namespace OnlineEdu.WebUI.DTOs.RoleDTOs
+﻿namespace OnlineEdu.DTO.DTOs.RoleDTOs
 {
     public class CreateRoleDTO
     {
